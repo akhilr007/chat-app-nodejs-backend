@@ -13,12 +13,11 @@ const PORT = 8000;
 io.on("connection", (socket) => {
   console.log("a user connected", socket.id);
 
-  socket.on("from_client", () => {
-    console.log("event coming from client");
+  socket.on("msg_send", (data) => {
+    console.log(data);
+    io.emit("msg_rcvd", data); // all are receiving messages
+    //socket.broadcast.emit("msg_rcvd", data); // who is sending will not receive the message
   });
-  setInterval(() => {
-    socket.emit("from_server");
-  }, 2000);
 });
 
 server.listen(PORT, () => {
